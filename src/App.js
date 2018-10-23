@@ -226,7 +226,7 @@ class Timer extends React.Component{
         minutes: response.minutes,
         seconds: response.seconds
       })
-      console.log(response.message);
+      console.log(response);
     });
      /*this.timerInterval = setInterval(this.TimerFunction, 1000)*/
       }
