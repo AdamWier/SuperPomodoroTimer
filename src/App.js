@@ -250,6 +250,7 @@ class Timer extends React.Component{
   render(){
     return(      <div id="pomodoro">
         <div id="timer" class="box">
+        {this.state.test}
         <h3>Timer</h3>
         {this.state.timerOn ? <div id="timer-numbers"><Display minutes={this.state.minutes} seconds={this.state.seconds} /></div> : this.props.type == "session" ? <p>{this.state.sessionStoppedMessage}</p> : <p>{this.state.pauseStoppedMessage}</p>}
           <h2 id="timer-label">{this.props.type} phase</h2>
