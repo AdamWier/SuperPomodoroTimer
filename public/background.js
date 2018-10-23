@@ -29,7 +29,7 @@ function TimerFunction(minutes, seconds, type, sendResponse){
         seconds: 0,
       })
     }*/
-    sendResponse({message: "hi to you", displayMinutes: timerMinutes, dsiaplySeconds: 25});
+    sendResponse({message: "hi to you", displayMinutes: timerMinutes, displaySeconds: timerSeconds});
       }
 
 chrome.runtime.onInstalled.addListener(function() {
