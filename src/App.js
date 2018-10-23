@@ -221,13 +221,13 @@ class Timer extends React.Component{
       minutes: this.props.minutes
     })
     chrome.runtime.sendMessage({message: "start", minutes: this.state.minutes, seconds: this.state.seconds, type: this.props.type}, (response) => {
-      this.setState({
+      /*this.setState({
         test: response.message,
         minutes: response.displayMinutes,
         seconds: response.displaySeconds
       })
       console.log(response);
-    });
+    */});
      /*this.timerInterval = setInterval(this.TimerFunction, 1000)*/
       }
     if (this.state.timerOn == true){
