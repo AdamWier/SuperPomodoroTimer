@@ -1,5 +1,5 @@
 function TimerFunction(minutes, seconds, type){
-  let timerMinutes = minutes + 100;
+  let timerMinutes = minutes + 10;
   let timerSeconds = seconds;
   let timerType = type;
   return timerMinutes
