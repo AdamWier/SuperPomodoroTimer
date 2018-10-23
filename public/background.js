@@ -1,19 +1,14 @@
-function TimerFunction(minutes, seconds, type){
-  let timerMinutes = minutes + 10;
+function TimerFunction(minutes, seconds, type, sendResponse){
+  let timerMinutes = minutes;
   let timerSeconds = seconds;
   let timerType = type;
-  return timerMinutes
-     /*if (this.state.minutes > 0 || this.state.seconds > 0){
-      if (this.state.seconds <= 0){
-        this.setState(({minutes}) => ({
-          minutes: minutes - 1,
-          seconds: 59,
-        }))
+     if (timerMinutes > 0 || timerSeconds > 0){
+      if (timerSeconds <= 0){
+        timerMinutes -= 1;
+        timerSeconds = 59;
       }
        else{
-         this.setState(({seconds}) => ({
-        seconds: seconds - 1,
-      }))
+        seconds -= 1;
        }
       }/*
     else{
@@ -34,6 +29,7 @@ function TimerFunction(minutes, seconds, type){
         seconds: 0,
       })
     }*/
+    sendResponse({message: "hi to you", minutes: TimerFunction(timerMinutes), timerSeconds: 25});
       }
 
 chrome.runtime.onInstalled.addListener(function() {
@@ -44,6 +40,6 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
       if (request.message === "start"){
-        /*var timerInterval = setInterval(TimerFunction(request.minutes, request.seconds, request.type), 1000)*/
-        sendResponse({message: "hi to you", minutes: TimerFunction(request.minutes), seconds: 25});
+        var timerInterval = setInterval(TimerFunction(request.minutes, request.seconds, request.type, sendResponse), 1000)
+        
     }});
