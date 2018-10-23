@@ -222,7 +222,7 @@ class Timer extends React.Component{
     })
     chrome.runtime.sendMessage({message: "start", minutes: this.state.minutes, seconds: this.state.seconds, type: this.props.type}, (response) => {
       this.setState({
-        test: response,
+        test: response.message,
         /*minutes: response.minutes,
         seconds: response.seconds*/
       })
