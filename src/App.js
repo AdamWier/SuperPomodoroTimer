@@ -180,12 +180,6 @@ class Timer extends React.Component{
   
   /*Timer mechanism*/
   TimerFunction(){
-    chrome.runtime.sendMessage({message: "hi"}, (response) => {
-      this.setState({
-        test: response.message
-      })
-      console.log(response.message);
-    });
      if (this.state.minutes > 0 || this.state.seconds > 0){
       if (this.state.seconds <= 0){
         this.setState(({minutes}) => ({
@@ -226,6 +220,12 @@ class Timer extends React.Component{
       timerOn: true,
       minutes: this.props.minutes
     })
+    chrome.runtime.sendMessage({message: "hi"}, (response) => {
+      this.setState({
+        test: response.message
+      })
+      console.log(response.message);
+    });
      this.timerInterval = setInterval(this.TimerFunction, 1000)
       }
     if (this.state.timerOn == true){
