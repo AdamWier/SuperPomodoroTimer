@@ -40,6 +40,6 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
       if (request.message === "start"){
-        var timerInterval = setInterval(TimerFunction(request.minutes, request.seconds, request.type, sendResponse), 1000)
+        TimerFunction(request.minutes, request.seconds, request.type, sendResponse)
         
     }});
