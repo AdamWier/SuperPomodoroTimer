@@ -224,7 +224,7 @@ class Timer extends React.Component{
       this.setState({
         test: response.message,
         minutes: response.displayMinutes,
-        /*seconds: response.seconds*/
+        seconds: response.displaySeconds
       })
       console.log(response);
     });
