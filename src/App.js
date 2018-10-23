@@ -166,7 +166,7 @@ class Timer extends React.Component{
     super(props)
     this.state = {
       minutes: this.props.minutes,
-      seconds: 0,
+      seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
       timerOn: this.props.timerOn,
       endPauseSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-break.wav"),
       endSessionSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-session.wav"),

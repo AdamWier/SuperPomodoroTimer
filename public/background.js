@@ -1,5 +1,5 @@
-let timerMinutes = 0;
-let timerSeconds = 0;
+let timerMinutes = null;
+let timerSeconds = null;
 
 function TimerFunction(){
      if (timerMinutes > 0 || timerSeconds > 0){
@@ -31,12 +31,8 @@ function TimerFunction(){
     }*/
     /*sendResponse({message: "timerMinutes", displayMinutes: timerMinutes, displaySeconds: timerSeconds});
     */
-    chrome.storage.local.set({second: timerSeconds}, function() {
-      console.log('Value is set to ' + timerSeconds);
-    });
-    chrome.storage.local.get(['second'], function(result) {
-      console.log('Value is set to ' + result.second);
-    });
+   window.localStorage.removeItem("seconds");
+   window.localStorage.setItem("seconds", timerSeconds); 
 
       }
 
