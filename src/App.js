@@ -229,7 +229,10 @@ class Timer extends React.Component{
       console.log(response);
     */});
      /*this.timerInterval = setInterval(this.TimerFunction, 1000)*/
-      }
+    setInterval(x => {this.setState({
+        seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
+    })}, 500)  
+    }
     if (this.state.timerOn == true){
       this.setState({
         timerOn: false,
@@ -248,7 +251,7 @@ class Timer extends React.Component{
     })
     this.props.reset()
   }
-  
+
   render(){
     return(      <div id="pomodoro">
         <div id="timer" class="box">
