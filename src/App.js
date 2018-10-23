@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+/* global chrome*/
 
 /* Ideas for future features: 1) tool tips 2) block websites */
 class Capitalizer extends React.Component{
