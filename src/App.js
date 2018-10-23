@@ -167,7 +167,7 @@ class Timer extends React.Component{
     this.state = {
       minutes: this.props.minutes,
       seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
-      timerOn: this.props.timerOn,
+      timerOn: window.localStorage.getItem("timerOn") ? window.localStorage.getItem("timerOn") : false,
       endPauseSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-break.wav"),
       endSessionSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-session.wav"),
       sessionStoppedMessage: "Timer stopped. Type this pomodoro's purpose and start!",
@@ -176,6 +176,12 @@ class Timer extends React.Component{
     /*this.TimerFunction = this.TimerFunction.bind(this);*/
     this.activateTimer = this.activateTimer.bind(this);
     this.reset = this.reset.bind(this);
+  }
+
+  componentDidMount(){
+  this.updateInterval = setInterval(x => {this.setState({
+    seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
+})}, 500)  
   }
   
   /*Timer mechanism*/
@@ -229,9 +235,6 @@ class Timer extends React.Component{
       console.log(response);
     */});
      /*this.timerInterval = setInterval(this.TimerFunction, 1000)*/
-    setInterval(x => {this.setState({
-        seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
-    })}, 500)  
     }
     if (this.state.timerOn == true){
       this.setState({

@@ -31,6 +31,8 @@ function TimerFunction(){
     }*/
     /*sendResponse({message: "timerMinutes", displayMinutes: timerMinutes, displaySeconds: timerSeconds});
     */
+   window.localStorage.removeItem("timerOn");
+   window.localStorage.setItem("timerOn", true); 
    window.localStorage.removeItem("seconds");
    window.localStorage.setItem("seconds", timerSeconds); 
 
