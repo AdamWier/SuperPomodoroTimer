@@ -181,6 +181,9 @@ class Timer extends React.Component{
   /*Timer mechanism*/
   TimerFunction(){
     chrome.runtime.sendMessage({message: "hi"}, (response) => {
+      this.setState({
+        test: response.message
+      })
       console.log(response.message);
     });
      if (this.state.minutes > 0 || this.state.seconds > 0){
