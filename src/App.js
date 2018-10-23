@@ -173,13 +173,13 @@ class Timer extends React.Component{
       sessionStoppedMessage: "Timer stopped. Type this pomodoro's purpose and start!",
       pauseStoppedMessage: "Timer stopped. Click go to take a well-deserved break!"
     }
-    this.TimerFunction = this.TimerFunction.bind(this);
+    /*this.TimerFunction = this.TimerFunction.bind(this);*/
     this.activateTimer = this.activateTimer.bind(this);
     this.reset = this.reset.bind(this);
   }
   
   /*Timer mechanism*/
-  TimerFunction(){
+  /*TimerFunction(){
      if (this.state.minutes > 0 || this.state.seconds > 0){
       if (this.state.seconds <= 0){
         this.setState(({minutes}) => ({
@@ -211,7 +211,7 @@ class Timer extends React.Component{
         seconds: 0,
       })
     }
-      }
+      }*/
   
     /*Start/pause button */
     activateTimer(){
@@ -220,7 +220,7 @@ class Timer extends React.Component{
       timerOn: true,
       minutes: this.props.minutes
     })
-    chrome.runtime.sendMessage({message: "hi"}, (response) => {
+    chrome.runtime.sendMessage({message: "start"}, (response) => {
       this.setState({
         test: response.message,
         minutes: response.minutes,
