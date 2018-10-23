@@ -5,8 +5,6 @@ chrome.runtime.onInstalled.addListener(function() {
 
   chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
-      if (request.message === "start"){
-        /*var timerInterval = setInterval(TimerFunction(request.minutes, request.seconds, request.type, sendResponse), 1000);*/
+      if (request.message === "hi")
         sendResponse({message: "hi to you"});
-      }
     });
