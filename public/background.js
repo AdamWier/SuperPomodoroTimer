@@ -35,7 +35,7 @@ function TimerFunction(){
    window.localStorage.setItem("timerOn", true); 
    window.localStorage.removeItem("seconds");
    window.localStorage.setItem("seconds", timerSeconds); 
-
+console.log(timerSeconds);
       }
 
 chrome.runtime.onInstalled.addListener(function() {
