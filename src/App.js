@@ -250,13 +250,10 @@ chrome.runtime.onMessage.addListener(this.handleMessage);
     */});
      /*this.timerInterval = setInterval(this.TimerFunction, 1000)*/
     }
-    /*if (this.state.timerOn == true){
-      this.setState({
-        timerOn: false,
-      })
-      clearInterval(this.timerInterval)
+    if (this.state.timerOn == true){
+      this.reset()
       
-    }*/
+    }
   }
   
    /*Reset button*/
