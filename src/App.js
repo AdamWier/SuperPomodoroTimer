@@ -355,8 +355,17 @@ class App extends React.Component{
     if (response.message == "done"){
       this.setState({
         counter: parseInt(window.localStorage.getItem("counter")),
-      })
-      this.changeTimer(window.localStorage.getItem("timerType"))
+      });
+      this.changeTimer(window.localStorage.getItem("timerType"));
+      ((this.state.counter % 4) == 0 && (this.state.counter > 0)) ?
+        this.setState(({pause}) => ({
+          session: 25,
+          pause: 30,
+        })) :
+        this.setState(({pause}) => ({
+          session: 25,
+          pause: 5,
+        }));
     }
   }
   
