@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+/* global chrome*/
 
 /* Ideas for future features: 1) tool tips 2) block websites */
 class Capitalizer extends React.Component{
@@ -164,21 +165,37 @@ class Timer extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      minutes: this.props.minutes,
-      seconds: 0,
-      timerOn: this.props.timerOn,
-      endPauseSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-break.wav"),
-      endSessionSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-session.wav"),
+      minutes: window.localStorage.getItem("minutes") ? window.localStorage.getItem("minutes") : this.props.minutes,
+      seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
+      timerOn: JSON.parse(window.localStorage.getItem('timerOn')) ? JSON.parse(window.localStorage.getItem('timerOn')) : false,
+      /*endPauseSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-break.wav"),
+      endSessionSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-session.wav"),*/
       sessionStoppedMessage: "Timer stopped. Type this pomodoro's purpose and start!",
       pauseStoppedMessage: "Timer stopped. Click go to take a well-deserved break!"
     }
-    this.TimerFunction = this.TimerFunction.bind(this);
+    /*this.TimerFunction = this.TimerFunction.bind(this);*/
     this.activateTimer = this.activateTimer.bind(this);
     this.reset = this.reset.bind(this);
+    this.handleMessage = this.handleMessage.bind(this);
+  }
+
+  componentDidMount(){
+  this.updateInterval = setInterval(x => {this.setState({
+    seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
+    minutes: window.localStorage.getItem("minutes") ? window.localStorage.getItem("minutes") : this.props.minutes,
+})}, 500);
+chrome.runtime.onMessage.addListener(this.handleMessage);  
   }
   
+  handleMessage(response){
+    if (response.message == "done"){
+      this.setState({
+        timerOn: false,
+      })
+    }
+  }
   /*Timer mechanism*/
-  TimerFunction(){
+  /*TimerFunction(){
      if (this.state.minutes > 0 || this.state.seconds > 0){
       if (this.state.seconds <= 0){
         this.setState(({minutes}) => ({
@@ -210,39 +227,60 @@ class Timer extends React.Component{
         seconds: 0,
       })
     }
-      }
+      }*/
   
     /*Start/pause button */
     activateTimer(){
     if (this.state.timerOn == false){
     this.setState({
       timerOn: true,
-      minutes: this.props.minutes
+      minutes: this.props.minutes,
     })
-     this.timerInterval = setInterval(this.TimerFunction, 1000)
-      }
-    if (this.state.timerOn == true){
-      this.setState({
-        timerOn: false,
+    window.localStorage.removeItem("minutes");
+    window.localStorage.setItem("minutes", this.props.minutes);
+    window.localStorage.removeItem("timerOn");
+    window.localStorage.setItem("timerOn", true); 
+    chrome.runtime.sendMessage({message: "start", minutes: window.localStorage.getItem("minutes"), seconds: this.state.seconds, type: this.props.type}, (response) => {
+      /*this.setState({
+        test: response.message,
+        minutes: response.displayMinutes,
+        seconds: response.displaySeconds
       })
-      clearInterval(this.timerInterval)
+      console.log(response);
+    */});
+     /*this.timerInterval = setInterval(this.TimerFunction, 1000)*/
+    }
+    if (this.state.timerOn == true){
+      this.reset()
+      window.localStorage.removeItem("timerType");
+      window.localStorage.setItem("timerType", "session")
+      
     }
   }
   
    /*Reset button*/
   reset(){
-    clearInterval(this.timerInterval)
+    /*clearInterval(this.timerInterval)*/
+      chrome.runtime.sendMessage({message: "stop", minutes: this.state.minutes, seconds: this.state.seconds, type: this.props.type}, (response) => {
+        });
+    window.localStorage.removeItem("timerOn");
+    window.localStorage.setItem("timerOn", false); 
     this.setState({
-      minutes: this.props.minutes,
-      seconds: 0,
-      timerOn: false,
-    })
+      timerOn: false
+    });
+    window.localStorage.removeItem("seconds");
+    window.localStorage.setItem("seconds", 0); 
+    window.localStorage.removeItem("minutes");
+    window.localStorage.setItem("minutes", this.props.minutes); 
     this.props.reset()
   }
-  
+
   render(){
     return(      <div id="pomodoro">
         <div id="timer" class="box">
+        {console.log(this.state.timerOn)}
+        {console.log("storage")}
+        {console.log(JSON.parse(window.localStorage.getItem('timerOn')))}
         <h3>Timer</h3>
         {this.state.timerOn ? <div id="timer-numbers"><Display minutes={this.state.minutes} seconds={this.state.seconds} /></div> : this.props.type == "session" ? <p>{this.state.sessionStoppedMessage}</p> : <p>{this.state.pauseStoppedMessage}</p>}
           <h2 id="timer-label">{this.props.type} phase</h2>
@@ -287,29 +325,60 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      currentTimer: "session",
+      currentTimer: window.localStorage.getItem("timerType") ? window.localStorage.getItem("timerType") : "session",
       session: 25,
       pause: 5,
-      counter: 0,
+      counter: parseInt(window.localStorage.getItem("counter")) ? parseInt(window.localStorage.getItem("counter")) : 0,
       timerOn: false, /* fix in timer class */
     }
     this.changeTimer = this.changeTimer.bind(this);
     this.reset = this.reset.bind(this);
-    this.counterUp = this.counterUp.bind(this);
+    /*this.counterUp = this.counterUp.bind(this);*/
     this.increaseMinutes = this.increaseMinutes.bind(this);
     this.decreaseMinutes = this.decreaseMinutes.bind(this);
+    this.handleMessage = this.handleMessage.bind(this);
+    this.resetCounter = this.resetCounter.bind(this);
+  }
+
+  componentDidMount(){
+      ((this.state.counter % 4) == 0 && (this.state.counter > 0)) ?
+        this.setState(({pause}) => ({
+          pause: 30,
+        })) :
+        this.setState(({pause}) => ({
+          pause: 5,
+        }));
+        chrome.runtime.onMessage.addListener(this.handleMessage);  
+  }
+
+  handleMessage(response){
+    if (response.message == "done"){
+      this.setState({
+        counter: parseInt(window.localStorage.getItem("counter")),
+      });
+      this.changeTimer(window.localStorage.getItem("timerType"));
+      ((this.state.counter % 4) == 0 && (this.state.counter > 0)) ?
+        this.setState(({pause}) => ({
+          session: 25,
+          pause: 30,
+        })) :
+        this.setState(({pause}) => ({
+          session: 25,
+          pause: 5,
+        }));
+    }
   }
   
-  changeTimer(finishedTimer){
-    if (finishedTimer == "session"){
+  changeTimer(newTimer){
+    if (newTimer == "session"){
         this.setState({
-          currentTimer: "pause",
+          currentTimer: "session",
         }
        )
   }
-    if (finishedTimer == "pause"){
+    if (newTimer == "pause"){
       this.setState({
-        currentTimer: "session",
+        currentTimer: "pause",
       })
     }
   }
@@ -320,8 +389,17 @@ class App extends React.Component{
     })
     
   }
+
+  resetCounter(){
+    window.localStorage.removeItem("counter");
+    this.setState({
+      counter: 0,
+    })
+    chrome.runtime.sendMessage({message: "reset counter"}, (response) => {
+    });
+  }
   
-  counterUp(type){
+  /*counterUp(type){
     if (type == "session"){
     this.setState(({ counter }) => ({
       counter: counter + 1,
@@ -334,7 +412,7 @@ class App extends React.Component{
         pause: 5,
       }))
     
-  }
+  }*/
   
   increaseMinutes(type){
       switch(type){
@@ -384,7 +462,9 @@ class App extends React.Component{
           <Timer minutes={this.state.currentTimer == "session" ? this.state.session : this.state.pause} reset={this.reset} counterUp={this.counterUp} timerSwitch={this.changeTimer} type={this.state.currentTimer} timerOn={this.state.timerOn}/>
         <div id="pause-lists"><div id="short" class="list"><PauseList type="short" /></div>
         <div id="long" class="list"><PauseList type="long" />
-        </div></div></div>
+        </div></div>
+        <div id="reset">
+        <button id="reset-counter" onClick={this.resetCounter}>Reset Pomodoros</button></div></div>
   )}
 };
 

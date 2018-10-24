@@ -1,3 +1,31 @@
+/* trykker-regular - latin */
+@font-face {
+  font-family: 'Trykker';
+  font-style: normal;
+  font-weight: 400;
+  src: url('trykker-v6-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Trykker Regular'), local('Trykker-Regular'),
+       url('trykker-v6-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('trykker-v6-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('trykker-v6-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('trykker-v6-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('trykker-v6-latin-regular.svg#Trykker') format('svg'); /* Legacy iOS */
+}
+
+/* vt323-regular - latin */
+@font-face {
+  font-family: 'VT323';
+  font-style: normal;
+  font-weight: 400;
+  src: url('vt323-v9-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('VT323 Regular'), local('VT323-Regular'),
+       url('vt323-v9-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('vt323-v9-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('vt323-v9-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('vt323-v9-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('vt323-v9-latin-regular.svg#VT323') format('svg'); /* Legacy iOS */
+}
+
 body{
   background-color: #b1e9e9;
   color: #696969;
@@ -11,7 +39,8 @@ body{
   grid-template:
     "header header header"
     "controller pomodoro pause-lists"
-    "controller pomodoro pause-lists";
+    "controller pomodoro pause-lists"
+    "reset reset reset";
 }
 
 .box{
@@ -120,6 +149,15 @@ button{
   cursor: pointer;
 }
 
+button:hover{
+  box-shadow:0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)
+}
+
+button:active {
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
 .pause-buttons{
   font-size: calc(5pt + 0.1vw);
   vertical-align: super;
@@ -160,6 +198,14 @@ input{
     "short"
     "long"
 }
+
+#reset{
+  grid-area: reset;
+}
+
+/*#reset-counter{
+  background-color: #44BE1E;
+}*/
 
 @media(max-width: 660px){
   #container{
