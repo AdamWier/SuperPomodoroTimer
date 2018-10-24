@@ -165,7 +165,7 @@ class Timer extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      minutes: this.props.minutes,
+      minutes: window.localStorage.getItem("minutes") ? window.localStorage.getItem("minutes") : this.props.minutes,
       seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
       timerOn: window.localStorage.getItem("timerOn") ? window.localStorage.getItem("timerOn") : false,
       endPauseSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-break.wav"),
@@ -181,6 +181,8 @@ class Timer extends React.Component{
   componentDidMount(){
   this.updateInterval = setInterval(x => {this.setState({
     seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
+    minutes: window.localStorage.getItem("minutes") ? window.localStorage.getItem("minutes") : this.props.minutes,
+    timerOn: window.localStorage.getItem("timerOn") ? window.localStorage.getItem("timerOn") : false,
 })}, 500)  
   }
   
@@ -237,21 +239,24 @@ class Timer extends React.Component{
      /*this.timerInterval = setInterval(this.TimerFunction, 1000)*/
     }
     if (this.state.timerOn == true){
-      this.setState({
+      /*this.setState({
         timerOn: false,
       })
-      clearInterval(this.timerInterval)
+      clearInterval(this.timerInterval)*/
+      chrome.runtime.sendMessage({message: "stop", minutes: this.state.minutes, seconds: this.state.seconds, type: this.props.type}, (response) => {
+        });
     }
   }
   
    /*Reset button*/
   reset(){
     clearInterval(this.timerInterval)
-    this.setState({
-      minutes: this.props.minutes,
-      seconds: 0,
-      timerOn: false,
-    })
+    window.localStorage.removeItem("timerOn");
+    window.localStorage.setItem("timerOn", false); 
+    window.localStorage.removeItem("seconds");
+    window.localStorage.setItem("seconds", 0); 
+    window.localStorage.removeItem("minutes");
+    window.localStorage.setItem("minutes", this.props.minutes); 
     this.props.reset()
   }
 

@@ -35,6 +35,8 @@ function TimerFunction(){
    window.localStorage.setItem("timerOn", true); 
    window.localStorage.removeItem("seconds");
    window.localStorage.setItem("seconds", timerSeconds); 
+   window.localStorage.removeItem("minutes");
+   window.localStorage.setItem("minutes", timerMinutes); 
 console.log(timerSeconds);
       }
 
