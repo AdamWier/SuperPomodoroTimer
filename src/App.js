@@ -228,6 +228,8 @@ class Timer extends React.Component{
       timerOn: true,
       minutes: this.props.minutes
     })
+    window.localStorage.removeItem("minutes");
+    window.localStorage.setItem("minutes", this.props.minutes);
     window.localStorage.removeItem("timerOn");
     window.localStorage.setItem("timerOn", true); 
     chrome.runtime.sendMessage({message: "start", minutes: this.state.minutes, seconds: this.state.seconds, type: this.props.type}, (response) => {
