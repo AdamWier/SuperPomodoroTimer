@@ -176,15 +176,24 @@ class Timer extends React.Component{
     /*this.TimerFunction = this.TimerFunction.bind(this);*/
     this.activateTimer = this.activateTimer.bind(this);
     this.reset = this.reset.bind(this);
+    this.handleMessage = this.handleMessage.bind(this);
   }
 
   componentDidMount(){
   this.updateInterval = setInterval(x => {this.setState({
     seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
     minutes: window.localStorage.getItem("minutes") ? window.localStorage.getItem("minutes") : this.props.minutes,
-})}, 500)  
+})}, 500);
+chrome.runtime.onMessage.addListener(this.handleMessage);  
   }
   
+  handleMessage(response){
+    if (response.message == "done"){
+      this.setState({
+        timerOn: false,
+      })
+    }
+  }
   /*Timer mechanism*/
   /*TimerFunction(){
      if (this.state.minutes > 0 || this.state.seconds > 0){
@@ -241,13 +250,13 @@ class Timer extends React.Component{
     */});
      /*this.timerInterval = setInterval(this.TimerFunction, 1000)*/
     }
-    if (this.state.timerOn == true){
+    /*if (this.state.timerOn == true){
       this.setState({
         timerOn: false,
       })
       clearInterval(this.timerInterval)
       
-    }
+    }*/
   }
   
    /*Reset button*/
@@ -270,7 +279,7 @@ class Timer extends React.Component{
   render(){
     return(      <div id="pomodoro">
         <div id="timer" class="box">
-        {this.state.timerOn}
+        {this.state.timerOn.toString()}
         <h3>Timer</h3>
         {this.state.timerOn ? <div id="timer-numbers"><Display minutes={this.state.minutes} seconds={this.state.seconds} /></div> : this.props.type == "session" ? <p>{this.state.sessionStoppedMessage}</p> : <p>{this.state.pauseStoppedMessage}</p>}
           <h2 id="timer-label">{this.props.type} phase</h2>

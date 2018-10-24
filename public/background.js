@@ -32,6 +32,11 @@ function TimerFunction(){
         minutes: this.props.minutes,
         seconds: 0,
       })*/
+      window.localStorage.removeItem("timerOn");
+      window.localStorage.setItem("timerOn", false);
+      chrome.runtime.sendMessage({message: "done"}, (response) => { 
+        console.log("message sent")
+      });
     }
     /*sendResponse({message: "timerMinutes", displayMinutes: timerMinutes, displaySeconds: timerSeconds});
     */
