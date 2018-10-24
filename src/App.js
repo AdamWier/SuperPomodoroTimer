@@ -182,7 +182,6 @@ class Timer extends React.Component{
   this.updateInterval = setInterval(x => {this.setState({
     seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
     minutes: window.localStorage.getItem("minutes") ? window.localStorage.getItem("minutes") : this.props.minutes,
-    timerOn: window.localStorage.getItem("timerOn") ? window.localStorage.getItem("timerOn") : false,
 })}, 500)  
   }
   
@@ -257,6 +256,9 @@ class Timer extends React.Component{
         });
     window.localStorage.removeItem("timerOn");
     window.localStorage.setItem("timerOn", false); 
+    this.setState({
+      timerOn: false
+    });
     window.localStorage.removeItem("seconds");
     window.localStorage.setItem("seconds", 0); 
     window.localStorage.removeItem("minutes");
