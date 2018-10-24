@@ -4,6 +4,7 @@ var timerInterval = null;
 var timerType = "session";
 var endPauseSound = new Audio("./pomodoro-end-break.wav");
 var endSessionSound = new Audio("./pomodoro-end-session.wav");
+var counter = 0;
 
 function TimerFunction(){
      if (timerMinutes > 0 || timerSeconds > 0){
@@ -25,8 +26,10 @@ function TimerFunction(){
           endSessionSound.play();
           break;
       }
-      /*this.props.counterUp(this.props.type);
-      this.props.timerSwitch(this.props.type);
+      counter += 1
+      window.localStorage.removeItem("counter");
+      window.localStorage.setItem("counter", counter);
+      /*this.props.timerSwitch(this.props.type);
       this.setState({
         timerOn: false,
         minutes: this.props.minutes,

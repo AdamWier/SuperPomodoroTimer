@@ -329,14 +329,34 @@ class App extends React.Component{
       currentTimer: "session",
       session: 25,
       pause: 5,
-      counter: 0,
+      counter: parseInt(window.localStorage.getItem("counter")) ? parseInt(window.localStorage.getItem("counter")) : 0,
       timerOn: false, /* fix in timer class */
     }
     this.changeTimer = this.changeTimer.bind(this);
     this.reset = this.reset.bind(this);
-    this.counterUp = this.counterUp.bind(this);
+    /*this.counterUp = this.counterUp.bind(this);*/
     this.increaseMinutes = this.increaseMinutes.bind(this);
     this.decreaseMinutes = this.decreaseMinutes.bind(this);
+    this.handleMessage = this.handleMessage.bind(this);
+  }
+
+  componentDidMount(){
+      ((this.state.counter % 4) == 0 && (this.state.counter > 0)) ?
+        this.setState(({pause}) => ({
+          pause: 30,
+        })) :
+        this.setState(({pause}) => ({
+          pause: 5,
+        }));
+        chrome.runtime.onMessage.addListener(this.handleMessage);  
+  }
+
+  handleMessage(response){
+    if (response.message == "done"){
+      this.setState({
+        counter: parseInt(window.localStorage.getItem("counter")),
+      })
+    }
   }
   
   changeTimer(finishedTimer){
@@ -360,7 +380,7 @@ class App extends React.Component{
     
   }
   
-  counterUp(type){
+  /*counterUp(type){
     if (type == "session"){
     this.setState(({ counter }) => ({
       counter: counter + 1,
@@ -373,7 +393,7 @@ class App extends React.Component{
         pause: 5,
       }))
     
-  }
+  }*/
   
   increaseMinutes(type){
       switch(type){
