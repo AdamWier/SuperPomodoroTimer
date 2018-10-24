@@ -252,6 +252,8 @@ chrome.runtime.onMessage.addListener(this.handleMessage);
     }
     if (this.state.timerOn == true){
       this.reset()
+      window.localStorage.removeItem("timerType");
+      window.localStorage.setItem("timerType", "session")
       
     }
   }
