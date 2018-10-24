@@ -11,7 +11,8 @@ body{
   grid-template:
     "header header header"
     "controller pomodoro pause-lists"
-    "controller pomodoro pause-lists";
+    "controller pomodoro pause-lists"
+    "reset reset reset";
 }
 
 .box{
@@ -160,6 +161,14 @@ input{
     "short"
     "long"
 }
+
+#reset{
+  grid-area: reset;
+}
+
+/*#reset-counter{
+  background-color: #44BE1E;
+}*/
 
 @media(max-width: 660px){
   #container{

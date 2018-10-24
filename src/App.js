@@ -456,14 +456,16 @@ class App extends React.Component{
   render(){
     return(
       <div id="container">
-        <div id="header" class="box"><h1>Pomodoros completed: <br/> {(this.state.counter)}<br/> <button onClick={this.resetCounter}>Reset Pomodoros</button></h1>
+        <div id="header" class="box"><h1>Pomodoros completed: <br/> {(this.state.counter)}</h1>
           </div>
         <div id="controller"><TimerControls type="session" minutes={this.state.session} increaseMinutes={this.increaseMinutes} decreaseMinutes={this.decreaseMinutes}/>
             <TimerControls type="pause" minutes={this.state.pause} increaseMinutes={this.increaseMinutes} decreaseMinutes={this.decreaseMinutes}/></div>
           <Timer minutes={this.state.currentTimer == "session" ? this.state.session : this.state.pause} reset={this.reset} counterUp={this.counterUp} timerSwitch={this.changeTimer} type={this.state.currentTimer} timerOn={this.state.timerOn}/>
         <div id="pause-lists"><div id="short" class="list"><PauseList type="short" /></div>
         <div id="long" class="list"><PauseList type="long" />
-        </div></div></div>
+        </div></div>
+        <div id="reset">
+        <button id="reset-counter" onClick={this.resetCounter}>Reset Pomodoros</button></div></div>
   )}
 };
 
