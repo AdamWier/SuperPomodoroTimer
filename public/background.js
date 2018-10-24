@@ -29,6 +29,11 @@ function TimerFunction(){
       counter += 1
       window.localStorage.removeItem("counter");
       window.localStorage.setItem("counter", counter);
+      if (timerType == "session")
+      {timerType = "pause";}
+      else {timerType = "session";}
+      window.localStorage.removeItem("timerType");
+      window.localStorage.setItem("timerType", timerType);
       /*this.props.timerSwitch(this.props.type);
       this.setState({
         timerOn: false,

@@ -326,7 +326,7 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      currentTimer: "session",
+      currentTimer: window.localStorage.getItem("timerType") ? window.localStorage.getItem("timerType") : "session",
       session: 25,
       pause: 5,
       counter: parseInt(window.localStorage.getItem("counter")) ? parseInt(window.localStorage.getItem("counter")) : 0,
@@ -356,19 +356,20 @@ class App extends React.Component{
       this.setState({
         counter: parseInt(window.localStorage.getItem("counter")),
       })
+      this.changeTimer(window.localStorage.getItem("timerType"))
     }
   }
   
-  changeTimer(finishedTimer){
-    if (finishedTimer == "session"){
+  changeTimer(newTimer){
+    if (newTimer == "session"){
         this.setState({
-          currentTimer: "pause",
+          currentTimer: "session",
         }
        )
   }
-    if (finishedTimer == "pause"){
+    if (newTimer == "pause"){
       this.setState({
-        currentTimer: "session",
+        currentTimer: "pause",
       })
     }
   }
