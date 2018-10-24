@@ -168,8 +168,8 @@ class Timer extends React.Component{
       minutes: window.localStorage.getItem("minutes") ? window.localStorage.getItem("minutes") : this.props.minutes,
       seconds: window.localStorage.getItem("seconds") ? window.localStorage.getItem("seconds") : 0,
       timerOn: window.localStorage.getItem("timerOn") ? window.localStorage.getItem("timerOn") : false,
-      endPauseSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-break.wav"),
-      endSessionSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-session.wav"),
+      /*endPauseSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-break.wav"),
+      endSessionSound: new Audio("http://www.mycabinetofcuriosities.com/codepen-files/pomodoro-end-session.wav"),*/
       sessionStoppedMessage: "Timer stopped. Type this pomodoro's purpose and start!",
       pauseStoppedMessage: "Timer stopped. Click go to take a well-deserved break!"
     }
@@ -223,16 +223,15 @@ class Timer extends React.Component{
     /*Start/pause button */
     activateTimer(){
     if (this.state.timerOn == false){
-      console.log("wrong click")
     this.setState({
       timerOn: true,
-      minutes: this.props.minutes
+      minutes: this.props.minutes,
     })
     window.localStorage.removeItem("minutes");
     window.localStorage.setItem("minutes", this.props.minutes);
     window.localStorage.removeItem("timerOn");
-    window.localStorage.setItem("timerOn", true); 
-    chrome.runtime.sendMessage({message: "start", minutes: this.state.minutes, seconds: this.state.seconds, type: this.props.type}, (response) => {
+    window.localStorage.setItem("timerOn", this.state.timerOn); 
+    chrome.runtime.sendMessage({message: "start", minutes: window.localStorage.getItem("minutes"), seconds: this.state.seconds, type: this.props.type}, (response) => {
       /*this.setState({
         test: response.message,
         minutes: response.displayMinutes,

@@ -1,6 +1,9 @@
 let timerMinutes = null;
 let timerSeconds = null;
-var timerInterval= null;
+var timerInterval = null;
+var timerType = "session";
+var endPauseSound = new Audio("./pomodoro-end-break.wav");
+var endSessionSound = new Audio("./pomodoro-end-session.wav");
 
 function TimerFunction(){
      if (timerMinutes > 0 || timerSeconds > 0){
@@ -11,25 +14,25 @@ function TimerFunction(){
        else{
         timerSeconds -= 1;
        }
-      }/*
+      }
     else{
-      clearInterval(this.timerInterval);
-      switch (this.props.type){
+      clearInterval(timerInterval);
+      switch (timerType){
         case "pause":
-          this.state.endPauseSound.play();
+          endPauseSound.play();
           break;
         case "session":
-          this.state.endSessionSound.play();
+          endSessionSound.play();
           break;
       }
-      this.props.counterUp(this.props.type);
+      /*this.props.counterUp(this.props.type);
       this.props.timerSwitch(this.props.type);
       this.setState({
         timerOn: false,
         minutes: this.props.minutes,
         seconds: 0,
-      })
-    }*/
+      })*/
+    }
     /*sendResponse({message: "timerMinutes", displayMinutes: timerMinutes, displaySeconds: timerSeconds});
     */
    window.localStorage.removeItem("seconds");
@@ -50,7 +53,8 @@ chrome.runtime.onInstalled.addListener(function() {
         /*TimerFunction(request.minutes, request.seconds, request.type, sendResponse)*/
         timerMinutes = request.minutes;
         timerSeconds = request.seconds;
-        timerInterval = setInterval(TimerFunction, 1000)
+        timerInterval = setInterval(TimerFunction, 1000);
+        timerType = request.type;
     }
   if (request.message === "stop"){
     clearInterval(timerInterval);
