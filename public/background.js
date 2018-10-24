@@ -26,7 +26,7 @@ function TimerFunction(){
           endSessionSound.play();
           break;
       }
-      counter += 1
+      if (timerType == "session"){counter += 1}
       window.localStorage.removeItem("counter");
       window.localStorage.setItem("counter", counter);
       if (timerType == "session")
