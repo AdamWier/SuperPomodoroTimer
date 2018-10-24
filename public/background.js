@@ -1,5 +1,6 @@
 let timerMinutes = null;
 let timerSeconds = null;
+var timerInterval= null;
 
 function TimerFunction(){
      if (timerMinutes > 0 || timerSeconds > 0){
@@ -31,8 +32,6 @@ function TimerFunction(){
     }*/
     /*sendResponse({message: "timerMinutes", displayMinutes: timerMinutes, displaySeconds: timerSeconds});
     */
-   window.localStorage.removeItem("timerOn");
-   window.localStorage.setItem("timerOn", true); 
    window.localStorage.removeItem("seconds");
    window.localStorage.setItem("seconds", timerSeconds); 
    window.localStorage.removeItem("minutes");
@@ -51,5 +50,10 @@ chrome.runtime.onInstalled.addListener(function() {
         /*TimerFunction(request.minutes, request.seconds, request.type, sendResponse)*/
         timerMinutes = request.minutes;
         timerSeconds = request.seconds;
-        setInterval(TimerFunction, 1000)
-    }});
+        timerInterval = setInterval(TimerFunction, 1000)
+    }
+  if (request.message === "stop"){
+    clearInterval(timerInterval);
+    console.log("message received");
+    window.localStorage.getItem("timerOn")
+  }});

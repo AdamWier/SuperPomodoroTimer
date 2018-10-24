@@ -224,10 +224,13 @@ class Timer extends React.Component{
     /*Start/pause button */
     activateTimer(){
     if (this.state.timerOn == false){
+      console.log("wrong click")
     this.setState({
       timerOn: true,
       minutes: this.props.minutes
     })
+    window.localStorage.removeItem("timerOn");
+    window.localStorage.setItem("timerOn", true); 
     chrome.runtime.sendMessage({message: "start", minutes: this.state.minutes, seconds: this.state.seconds, type: this.props.type}, (response) => {
       /*this.setState({
         test: response.message,
@@ -239,18 +242,19 @@ class Timer extends React.Component{
      /*this.timerInterval = setInterval(this.TimerFunction, 1000)*/
     }
     if (this.state.timerOn == true){
-      /*this.setState({
+      this.setState({
         timerOn: false,
       })
-      clearInterval(this.timerInterval)*/
-      chrome.runtime.sendMessage({message: "stop", minutes: this.state.minutes, seconds: this.state.seconds, type: this.props.type}, (response) => {
-        });
+      clearInterval(this.timerInterval)
+      
     }
   }
   
    /*Reset button*/
   reset(){
-    clearInterval(this.timerInterval)
+    /*clearInterval(this.timerInterval)*/
+      chrome.runtime.sendMessage({message: "stop", minutes: this.state.minutes, seconds: this.state.seconds, type: this.props.type}, (response) => {
+        });
     window.localStorage.removeItem("timerOn");
     window.localStorage.setItem("timerOn", false); 
     window.localStorage.removeItem("seconds");
@@ -263,7 +267,7 @@ class Timer extends React.Component{
   render(){
     return(      <div id="pomodoro">
         <div id="timer" class="box">
-        {this.state.test}
+        {this.state.timerOn}
         <h3>Timer</h3>
         {this.state.timerOn ? <div id="timer-numbers"><Display minutes={this.state.minutes} seconds={this.state.seconds} /></div> : this.props.type == "session" ? <p>{this.state.sessionStoppedMessage}</p> : <p>{this.state.pauseStoppedMessage}</p>}
           <h2 id="timer-label">{this.props.type} phase</h2>
