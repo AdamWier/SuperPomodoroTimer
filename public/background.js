@@ -73,4 +73,7 @@ chrome.runtime.onInstalled.addListener(function() {
     clearInterval(timerInterval);
     console.log("message received");
     window.localStorage.getItem("timerOn")
-  }});
+  }
+if (request.messagage === "reset counter"){
+  counter = 0
+}});

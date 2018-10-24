@@ -338,6 +338,7 @@ class App extends React.Component{
     this.increaseMinutes = this.increaseMinutes.bind(this);
     this.decreaseMinutes = this.decreaseMinutes.bind(this);
     this.handleMessage = this.handleMessage.bind(this);
+    this.resetCounter = this.resetCounter.bind(this);
   }
 
   componentDidMount(){
@@ -388,6 +389,15 @@ class App extends React.Component{
       currentTimer: "session",
     })
     
+  }
+
+  resetCounter(){
+    window.localStorage.removeItem("counter");
+    this.setState({
+      counter: 0,
+    })
+    chrome.runtime.sendMessage({message: "reset counter"}, (response) => {
+    });
   }
   
   /*counterUp(type){
@@ -446,7 +456,7 @@ class App extends React.Component{
   render(){
     return(
       <div id="container">
-        <div id="header" class="box"><h1>Pomodoros completed: <br/> {(this.state.counter)}</h1>
+        <div id="header" class="box"><h1>Pomodoros completed: <br/> {(this.state.counter)}<br/> <button onClick={this.resetCounter}>Reset Pomodoros</button></h1>
           </div>
         <div id="controller"><TimerControls type="session" minutes={this.state.session} increaseMinutes={this.increaseMinutes} decreaseMinutes={this.decreaseMinutes}/>
             <TimerControls type="pause" minutes={this.state.pause} increaseMinutes={this.increaseMinutes} decreaseMinutes={this.decreaseMinutes}/></div>
