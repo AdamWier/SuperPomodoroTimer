@@ -4,7 +4,7 @@
 
   "name": "Super Pomodoro Timer",
   "description": "The best Pomodoro timer there is",
-  "version": "0.0.2",
+  "version": "0.0.3",
 
   "background": {
     "scripts": ["background.js"]
