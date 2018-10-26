@@ -57,6 +57,7 @@ function TimerFunction(){
     clearInterval(timerInterval);
     window.localStorage.getItem("timerOn")
   }
-if (request.messagage === "reset counter"){
+if (request.message === "reset counter"){
+  console.log("count reset")
   counter = 0
 }});
