@@ -203,10 +203,6 @@ input{
   grid-area: reset;
 }
 
-/*#reset-counter{
-  background-color: #44BE1E;
-}*/
-
 @media(max-width: 660px){
   #container{
   display: grid;

@@ -34,36 +34,20 @@ function TimerFunction(){
       else {timerType = "session";}
       window.localStorage.removeItem("timerType");
       window.localStorage.setItem("timerType", timerType);
-      /*this.props.timerSwitch(this.props.type);
-      this.setState({
-        timerOn: false,
-        minutes: this.props.minutes,
-        seconds: 0,
-      })*/
       window.localStorage.removeItem("timerOn");
       window.localStorage.setItem("timerOn", false);
       chrome.runtime.sendMessage({message: "done"}, (response) => { 
-        console.log("message sent")
       });
     }
-    /*sendResponse({message: "timerMinutes", displayMinutes: timerMinutes, displaySeconds: timerSeconds});
-    */
    window.localStorage.removeItem("seconds");
    window.localStorage.setItem("seconds", timerSeconds); 
    window.localStorage.removeItem("minutes");
    window.localStorage.setItem("minutes", timerMinutes); 
-console.log(timerSeconds);
       }
-
-chrome.runtime.onInstalled.addListener(function() {
-    console.log("The color is green.");
-  });
-
 
   chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
       if (request.message === "start"){
-        /*TimerFunction(request.minutes, request.seconds, request.type, sendResponse)*/
         timerMinutes = request.minutes;
         timerSeconds = request.seconds;
         timerInterval = setInterval(TimerFunction, 1000);
@@ -71,9 +55,9 @@ chrome.runtime.onInstalled.addListener(function() {
     }
   if (request.message === "stop"){
     clearInterval(timerInterval);
-    console.log("message received");
     window.localStorage.getItem("timerOn")
   }
-if (request.messagage === "reset counter"){
+if (request.message === "reset counter"){
+  console.log("count reset")
   counter = 0
 }});
